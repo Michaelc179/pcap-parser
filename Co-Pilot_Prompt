@@ -1,5 +1,6 @@
 This file contains the prompt we'll use for Co-Pilot. It also contains an overview of the project
 
+I want to create a SQL parser that can analyse and extract a SQLite database using python.
 
 SQL --> places.sqlite
 1. What are columns
