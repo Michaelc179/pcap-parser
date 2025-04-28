@@ -1,53 +1,61 @@
-# sqlite-parser
+# PCAP Forensics Parser
 
-## Overview
-This project provides tools for parsing and analyzing SQLite database files at a low level. The initial implementation i've done so far focuses on reading and interpreting the SQLite database header, with plans to expand to full database parsing of <the artifact we will choose>
+A lightweight command-line tool for forensic analysis of PCAP files.  
+Parses global headers, per-packet metadata, Ethernet/IPv4/TCP/UDP layers, and generates summaries. Supports verbose output, CSV export, and interactive search.
 
-## Project Structure
+## Requirements
 
-```
-sqlite-parser/
-│
-├── parser/
-│ ├── init.py
-│ ├── header.py # Main header parsing logic
-│ └── const.py # Constants for header fields
-│
-├── test_files/ # Sample SQLite databases for testing
-│ └── master.db # Example test file, eventually we'll add the actual artifact we're using
-|
-├── test_header.py # Tests for header parsing
-├── README.md # This file
-└── requirements.txt # Python dependencies
-```
+- Python 3.7 or newer (standard library only)
 
-## Current Components
-
-### Header Parser (`header.py`)
-- Parses the first 100 bytes of SQLite files
-- Validates the SQLite magic string
-- Extracts all header fields into a dictionary
-- Provides human-readable output
-
-### Constants (`const.py`)
-- Contains all header field positions and formats
-- Defines the SQLite magic string
-- Provides reference values for header fields
-
-## Getting Started
+## Usage
 
 ```bash
-pip install -r requirements.txt
-python test_header.py test_files\master.db # or any other database file
+python3 pcap_forensics_parser.py [options] <capture.pcap>
 ```
 
-## Example Ouput - Header Parsing
-```python
-SQLite Database Header:
-  Page Size: 4096 bytes
-  Database Size: 5 pages
-  Schema Version: 1
-  Text Encoding: UTF-8
-  Application ID: 0
-  SQLite Version: 3034000
-```
+### Options
+
+| Flag                   | Description                                                                                       |
+|------------------------|---------------------------------------------------------------------------------------------------|
+| `-v`, `--verbose`      | Show full details for each packet: file offsets, MAC addresses, Ethertype, IP headers, ports.     |
+| `-o FILE`, `--output`  | Write per-packet data to the specified CSV file (one row per packet with all parsed fields).      |
+| `-s`, `--search`       | After parsing, enter an interactive prompt. Type any term (IP, MAC, port, etc.) to filter results. |
+| `-h`, `--help`         | Display help message and exit.                                                                    |
+
+## Examples
+
+- **Summary only**  
+  ```bash
+  python3 pcap_forensics_parser.py capture.pcap
+  ```
+
+- **Verbose output**  
+  ```bash
+  python3 pcap_forensics_parser.py -v capture.pcap
+  ```
+
+- **Write CSV and show summary**  
+  ```bash
+  python3 pcap_forensics_parser.py -o results.csv capture.pcap
+  ```
+
+- **Verbose + CSV export**  
+  ```bash
+  python3 pcap_forensics_parser.py -v -o results.csv capture.pcap
+  ```
+
+- **Interactive search**  
+  ```bash
+  python3 pcap_forensics_parser.py -s capture.pcap
+  # > Enter search term: 10.0.0.5
+  # (displays only packets matching “10.0.0.5”)
+  ```
+
+## Brief Overview of Output
+
+- **Per-packet lines**  
+  - Packet number, timestamp, capture/original lengths  
+  - (Verbose) File offsets, source/dest MAC, Ethertype, IP addresses, ports, protocol  
+- **Summary statistics**  
+  - Total packets, total bytes, capture duration  
+  - Top talkers (by bytes) and top flows (5-tuple counts)
