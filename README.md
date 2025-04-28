@@ -26,27 +26,27 @@ python3 pcap.py [options] <capture.pcap>
 
 - **Summary only**  
   ```bash
-  python3 pcap_forensics_parser.py capture.pcap
+  python3 pcap.py capture.pcap
   ```
 
 - **Verbose output**  
   ```bash
-  python3 pcap_forensics_parser.py -v capture.pcap
+  python3 pcap.py -v capture.pcap
   ```
 
 - **Write CSV and show summary**  
   ```bash
-  python3 pcap_forensics_parser.py -o results.csv capture.pcap
+  python3 pcap.py -o results.csv capture.pcap
   ```
 
 - **Verbose + CSV export**  
   ```bash
-  python3 pcap_forensics_parser.py -v -o results.csv capture.pcap
+  python3 pcap.py -v -o results.csv capture.pcap
   ```
 
 - **Interactive search**  
   ```bash
-  python3 pcap_forensics_parser.py -s capture.pcap
+  python3 pcap.py -s capture.pcap
   # > Enter search term: 10.0.0.5
   # (displays only packets matching “10.0.0.5”)
   ```
