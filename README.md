@@ -10,7 +10,7 @@ Parses global headers, per-packet metadata, Ethernet/IPv4/TCP/UDP layers, and ge
 ## Usage
 
 ```bash
-python3 pcap_forensics_parser.py [options] <capture.pcap>
+python3 pcap.py [options] <capture.pcap>
 ```
 
 ### Options
